@@ -53,7 +53,7 @@ def run_traceroute(ip="", out=None):
         out.set("ip not set")
         return 1
 
-    output = subprocess.check_output(["traceroute", "-n", ip])
+    output = subprocess.check_output(["traceroute", "-w", "1", "-n", ip])
     print output
     out.put(base64.b64encode(output))
 
