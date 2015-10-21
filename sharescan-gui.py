@@ -8,6 +8,7 @@ import time
 import base64
 import urllib2
 import Tkinter
+import platform
 import tkMessageBox
 import subprocess
 import multiprocessing
@@ -53,7 +54,11 @@ def run_traceroute(ip="", out=None):
         out.set("ip not set")
         return 1
 
-    output = subprocess.check_output(["traceroute", "-w", "1", "-n", ip])
+    if any(platform.win32_ver()):
+        output = subprocess.check_output(["tracert", "-d", "-w", "100", ip])
+    else:
+        # UNIX like.
+        output = subprocess.check_output(["traceroute", "-w", "1", "-n", ip])
     out.put(base64.b64encode(output))
 
 
