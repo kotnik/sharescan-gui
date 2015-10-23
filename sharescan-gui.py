@@ -172,7 +172,8 @@ class SharescanGui(Tkinter.Tk):
             print "Result: %s" % out.get()
 
 
-        self._set_text(u"\nSkeniranje završeno. Hvala.\n")
+        self._set_text(u"\nSkeniranje završeno. Rezultati su automatski poslati.\n")
+        self._set_text(u"\nHvala.\n")
         self.started = False
 
     def exit_click(self):
