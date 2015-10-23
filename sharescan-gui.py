@@ -15,10 +15,8 @@ import multiprocessing
 
 
 def http_get(url="", out=None):
-    print "Getting %s" % url
     res = urllib2.urlopen(url).read()
     json_res = json.loads(res)
-    print "Result: %s" % json_res
     out.put(json_res)
     return 0
 
@@ -27,7 +25,6 @@ def get_my_ip(out=None):
     site = urllib2.urlopen("http://checkip.dyndns.org/").read()
     grab = re.findall('([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)', site)
     address = grab[0]
-    print "My ip: %s" % address
     out.put(address)
     return 0
 
@@ -139,7 +136,6 @@ class SharescanGui(Tkinter.Tk):
             "data": {"ip": self.my_ip},
             "out": out
         })
-        print "Result: %s" % out.get()
 
         self._set_text(u"\nDobavljam sve IP adrese za skeniranje...\n")
         self._run(http_get, {
@@ -159,7 +155,6 @@ class SharescanGui(Tkinter.Tk):
             self._set_text(u"Skeniram %s...\n" % ip)
             self._run(run_traceroute, {"ip": ip, "out": out})
             trace = out.get()
-            print "Posting %s" % trace
             self._run(http_post, {
                 "url": "https://shareforce.kotur.org/v1/result/",
                 "data": {
@@ -169,7 +164,6 @@ class SharescanGui(Tkinter.Tk):
                 },
                 "out": out
             })
-            print "Result: %s" % out.get()
 
 
         self._set_text(u"\nSkeniranje završeno. Rezultati su automatski poslati.\n")
